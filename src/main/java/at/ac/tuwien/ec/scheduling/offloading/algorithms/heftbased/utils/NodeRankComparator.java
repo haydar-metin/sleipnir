@@ -8,7 +8,12 @@ public class NodeRankComparator implements Comparator<MobileSoftwareComponent> {
 
 	@Override
 	public int compare(MobileSoftwareComponent o1, MobileSoftwareComponent o2) {
-		return Double.compare(o2.getRank(),o1.getRank());
+		int val = Double.compare(o2.getRank(),o1.getRank());
+		if (val == 0) {
+			return o1.getId().compareTo(o2.getId());
+		}
+
+		return val;
 	}
 
 }

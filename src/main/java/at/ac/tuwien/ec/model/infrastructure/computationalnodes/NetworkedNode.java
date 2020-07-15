@@ -79,7 +79,12 @@ public abstract class NetworkedNode implements Serializable{
 	{
 		return capabilities.supports(sc.getHardwareRequirements());
 	}
-	
+
+	public boolean isMaxCompatible(SoftwareComponent sc)
+	{
+		return capabilities.supportsMax(sc.getHardwareRequirements());
+	}
+
 	public double getOutData()
 	{
 		return 0;

@@ -54,6 +54,12 @@ public class HardwareCapabilities implements Serializable {
         && capabilities.storage >= request.storage;
   }
 
+  public boolean supportsMax(Hardware request) {
+    return maxCores >= request.cores
+        && maxRam >= request.ram
+        && maxStorage >= request.storage;
+  }
+
   public boolean deploy(SoftwareComponent cmp) {
     if (!supports(cmp.getHardwareRequirements())) return false;
     capabilities.cores -= cmp.getHardwareRequirements().cores;

@@ -17,22 +17,22 @@ public class SimulationSetup {
 		
 	}
 
-	public static int cloudNum = 2;
-	public static int MAP_M = 2;
-	public static int MAP_N = 2;
+	public static int cloudNum = 6;
+	public static int MAP_M = 6;
+	public static int MAP_N = 6;
 	public static int cloudMaxHops = 10;
 	public static int cloudCoreNum = 128;
 	public static double cloudRam = 256;
 	public static double cloudStorage = Double.MAX_VALUE;
 	public static double cloudMipsPerCore = 6400000.0;
-	public static int edgeCoreNum = 1;
+	public static int edgeCoreNum = 16;
 	public static double edgeRam = 128;
 	public static double edgeStorage = 5e9;
 	public static double edgeMipsPerCore = 80000.0;
 	public static EdgePricingModel edgePricingModel = new EdgePricingModel();
 	public static CPUEnergyModel edgeCPUEnergyModel = new AMDCPUEnergyModel();
-	public static int mobileNum = 3;
-	public static double mobileEnergyBudget = 0; // 26640.0;
+	public static int mobileNum = 1;
+	public static double mobileEnergyBudget = 26640.0;
 	public static HardwareCapabilities defaultMobileDeviceHardwareCapabilities = 
 			new HardwareCapabilities(new Hardware(2,16,(int)16e10),600);
 	public static HardwareCapabilities defaultIoTDeviceHardwareCapabilities = 
@@ -58,7 +58,7 @@ public class SimulationSetup {
 	public static double facebookImageSize = 20e3;
 	public static double facerecImageSize = 10e3;
 	public static double navigatorMapSize = 25e6;
-	public static String[] algorithms = {"heft-r", "heft-b", "cpop-r", "cpop-b", "kdla-r", "kdla-b", "peft-r", "peft-b", "mmolb-r", "mmolb-b"};
+	public static String[] algorithms = {"heft-r"};
 	public static boolean batch;
 	public static double batteryCapacity = mobileEnergyBudget * mobileNum;
 	public static int iterations = 10;
@@ -66,7 +66,7 @@ public class SimulationSetup {
 	public static double EchoAlpha;
 	public static double EchoBeta;
 	public static double Eta = 1.0;
-	public static int appNumber = 30;
+	public static int appNumber = 1;
 	
 	public static String[] topics = {"temperature", "moisture", "wind"};
 	public static int iotDevicesNum = 36;
@@ -84,7 +84,7 @@ public class SimulationSetup {
 	public static double x_max = 3119;
 	public static String mobilityTraceFile = "traces/hernals.coords";
 	
-	public static String mobileApplication = "ANTIVIRUS";
+	public static String mobileApplication = "NAVI";
 	public static String edgePlanningAlgorithm = "ares";
 	public static String electricityTraceFile;
 	public static String outfile = "../output/";
