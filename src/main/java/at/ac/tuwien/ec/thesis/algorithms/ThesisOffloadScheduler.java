@@ -34,6 +34,13 @@ public abstract class ThesisOffloadScheduler extends OffloadScheduler {
         ((ComputationalNode) scheduling.get(finishedTask)).undeploy(finishedTask);
         currentRuntime += finishedTask.getRunTime();
         totalFinishedTasks++;
+        System.out.println(
+            "["
+                + this.getClass().getSimpleName() + ", " + finishedTask.getId()
+                + "] Finished: "
+                + totalFinishedTasks
+                + "/"
+                + totalTaskNum);
       }
 
       PriorityQueue<MobileSoftwareComponent> readyTasks =

@@ -28,16 +28,16 @@ public class ThesisMain {
   public static void main(String[] args) {
     System.out.println("Testing started");
     SimulationSetup.mobileNum = 100;
-    SimulationSetup.appNumber = 10;
-    SimulationSetup.mobileApplication = "CHESS";
+    SimulationSetup.appNumber = 30;
+    SimulationSetup.mobileApplication = "ANTIVIRUS";
     boolean isDebug = false;
     String[] names =
         new String[] {
           "HEFT-R", "HEFT-B", "CPOP-R", "CPOP-B", "KDLA-R", "KDLA-B", "PEFT-R", "PEFT-B", "LLOBM-R",
           "LLOBM-B"
         };
-    Integer[] ids = new Integer[] {0, 1, 2, 3, 4, 5, 8, 9};
-    // Integer[] ids = new Integer[] {0, 1};
+    // Integer[] ids = new Integer[] {0, 1, 2, 3, 4, 5, 8, 9};
+    Integer[] ids = new Integer[] {0, 1};
     int rounds = 1;
 
     for (Integer id : ids) {

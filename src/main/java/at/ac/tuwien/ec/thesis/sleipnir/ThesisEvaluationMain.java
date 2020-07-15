@@ -48,7 +48,7 @@ public class ThesisEvaluationMain {
     DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd-HH_mm_ss");
     Date date = new Date();
 
-    String fileName = SimulationSetup.outfile + dateFormat.format(date) + "_thesis.csv";
+    String fileName = SimulationSetup.outfile + dateFormat.format(date) + "_" + ThesisSettings.fileName;
     File outFile = new File(fileName);
     if (!outFile.exists()) {
       outFile.getParentFile().mkdirs();
@@ -67,7 +67,12 @@ public class ThesisEvaluationMain {
 
       for (String algorithm : ThesisSettings.algorithms) {
         SimulationSetup.algorithms = new String[] {algorithm};
+        SimulationSetup.mobileNum = 100;
+        SimulationSetup.appNumber = 30;
 
+        execute(algorithm, writer);
+
+        /*
         for (int count : ThesisSettings.parallelInstances) {
           SimulationSetup.mobileNum = count;
           SimulationSetup.appNumber = 1;
@@ -79,6 +84,8 @@ public class ThesisEvaluationMain {
           SimulationSetup.appNumber = count;
           execute(algorithm, writer);
         }
+
+         */
       }
     }
 
@@ -99,8 +106,6 @@ public class ThesisEvaluationMain {
 
     String data =
         SimulationSetup.mobileApplication
-            + "-"
-            + algoName
             + "/"
             + algoName
             + "-parallel="
@@ -125,9 +130,10 @@ public class ThesisEvaluationMain {
         mostFrequent._2()._2(), // runtime
         mostFrequent._2()._4(), // battery
         mostFrequent._2()._5(), // execution_time
-        mostFrequent._2()._5() / SimulationSetup.batteryCapacity,
+        mostFrequent._2()._4() / SimulationSetup.batteryCapacity,
         SimulationSetup.batteryCapacity
         );
+    writer.flush();
 
     jscontext.close();
   }
