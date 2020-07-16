@@ -5,6 +5,7 @@ import at.ac.tuwien.ec.model.software.MobileSoftwareComponent;
 import at.ac.tuwien.ec.scheduling.offloading.OffloadScheduler;
 import at.ac.tuwien.ec.scheduling.offloading.OffloadScheduling;
 import at.ac.tuwien.ec.scheduling.offloading.algorithms.heftbased.utils.NodeRankComparator;
+import at.ac.tuwien.ec.thesis.ThesisSettings;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.stream.Collectors;
@@ -34,13 +35,17 @@ public abstract class ThesisOffloadScheduler extends OffloadScheduler {
         ((ComputationalNode) scheduling.get(finishedTask)).undeploy(finishedTask);
         currentRuntime += finishedTask.getRunTime();
         totalFinishedTasks++;
-        System.out.println(
-            "["
-                + this.getClass().getSimpleName() + ", " + finishedTask.getId()
-                + "] Finished: "
-                + totalFinishedTasks
-                + "/"
-                + totalTaskNum);
+        if (ThesisSettings.EnableProgressDebug) {
+          System.out.println(
+              "["
+                  + this.getClass().getSimpleName()
+                  + ", "
+                  + finishedTask.getId()
+                  + "] Finished: "
+                  + totalFinishedTasks
+                  + "/"
+                  + totalTaskNum);
+        }
       }
 
       PriorityQueue<MobileSoftwareComponent> readyTasks =

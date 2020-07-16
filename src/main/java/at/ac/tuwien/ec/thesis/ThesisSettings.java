@@ -1,7 +1,11 @@
 package at.ac.tuwien.ec.thesis;
 
 public class ThesisSettings {
+  public static boolean EnableProgressDebug = false;
+
   public static int kdla_k = 5;
+  public static double ScoreAlpha;
+  public static double ScoreBeta;
 
   public static String header = "App;Algorithm;Parallel;Sequential;Runtime;Battery;Execution Time;Battery Percentage;Battery Capacity";
   public static String fileName = "thesis_extreme.csv";

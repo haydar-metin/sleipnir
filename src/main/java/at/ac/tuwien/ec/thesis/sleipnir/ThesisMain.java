@@ -7,9 +7,12 @@ import at.ac.tuwien.ec.model.infrastructure.provisioning.mobile.DefaultMobileDev
 import at.ac.tuwien.ec.model.software.MobileApplication;
 import at.ac.tuwien.ec.scheduling.offloading.OffloadScheduling;
 import at.ac.tuwien.ec.sleipnir.SimulationSetup;
+import at.ac.tuwien.ec.thesis.ThesisSettings;
 import at.ac.tuwien.ec.thesis.algorithms.ThesisOffloadScheduler;
 import at.ac.tuwien.ec.thesis.algorithms.cpop.CPOPBattery;
+import at.ac.tuwien.ec.thesis.algorithms.cpop.CPOPBatteryScored;
 import at.ac.tuwien.ec.thesis.algorithms.cpop.CPOPRuntime;
+import at.ac.tuwien.ec.thesis.algorithms.cpop.CPOPRuntimeScored;
 import at.ac.tuwien.ec.thesis.algorithms.heft.ThesisHEFTBattery;
 import at.ac.tuwien.ec.thesis.algorithms.heft.ThesisHEFTRuntime;
 import at.ac.tuwien.ec.thesis.algorithms.kdla.KDLABattery;
@@ -28,16 +31,20 @@ public class ThesisMain {
   public static void main(String[] args) {
     System.out.println("Testing started");
     SimulationSetup.mobileNum = 100;
-    SimulationSetup.appNumber = 30;
-    SimulationSetup.mobileApplication = "ANTIVIRUS";
+    SimulationSetup.appNumber = 10;
+    SimulationSetup.mobileApplication = "NAVI";
+
+    ThesisSettings.EnableProgressDebug = false;
+    ThesisSettings.ScoreAlpha = 0.8;
+    ThesisSettings.ScoreBeta = 1 - ThesisSettings.ScoreAlpha;
     boolean isDebug = false;
     String[] names =
         new String[] {
           "HEFT-R", "HEFT-B", "CPOP-R", "CPOP-B", "KDLA-R", "KDLA-B", "PEFT-R", "PEFT-B", "LLOBM-R",
-          "LLOBM-B"
+          "LLOBM-B", "CPOP-RS", "CPOP-BS"
         };
     // Integer[] ids = new Integer[] {0, 1, 2, 3, 4, 5, 8, 9};
-    Integer[] ids = new Integer[] {0, 1};
+    Integer[] ids = new Integer[] {2, 3, 10, 11};
     int rounds = 1;
 
     for (Integer id : ids) {
@@ -82,6 +89,12 @@ public class ThesisMain {
           case 9:
             scheduler = new MMOLBBattery(sample);
             break;
+          case 10:
+            scheduler = new CPOPRuntimeScored(sample);
+            break;
+          case 11:
+            scheduler = new CPOPBatteryScored(sample);
+            break;
         }
 
         ArrayList<OffloadScheduling> offloads = scheduler.findScheduling();
@@ -124,7 +137,7 @@ public class ThesisMain {
               + "] Result: "
               + avgRunTime / rounds
               + ", "
-              + avgBatteryConsumption / rounds
+              + (avgBatteryConsumption / rounds) / SimulationSetup.batteryCapacity
               + " ["
               + avg_seconds
               + ", "
