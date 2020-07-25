@@ -138,7 +138,7 @@ public class CPOPRuntimeScored extends BaseCPOP {
     double runtimeDiff = Math.pow(currRuntime - minRuntime,2.0);
     double energyDiff = Math.pow(currEnergy - minEnergy,2.0);
 
-    return ThesisSettings.ScoreAlpha * adjust(runtimeDiff,1.0) + ThesisSettings.ScoreBeta * adjust(energyDiff,1.0);
+    return ThesisSettings.ScoreAlpha * adjust(runtimeDiff,1.0) + (1 - ThesisSettings.ScoreAlpha) * adjust(energyDiff,1.0);
   }
 
 

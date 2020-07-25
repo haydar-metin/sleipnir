@@ -7,13 +7,16 @@ import at.ac.tuwien.ec.sleipnir.SimulationSetup;
 import at.ac.tuwien.ec.thesis.ThesisSettings;
 import at.ac.tuwien.ec.thesis.algorithms.ThesisOffloadScheduler;
 import at.ac.tuwien.ec.thesis.algorithms.cpop.CPOPBattery;
+import at.ac.tuwien.ec.thesis.algorithms.cpop.CPOPBatteryScored;
 import at.ac.tuwien.ec.thesis.algorithms.cpop.CPOPRuntime;
+import at.ac.tuwien.ec.thesis.algorithms.cpop.CPOPRuntimeScored;
 import at.ac.tuwien.ec.thesis.algorithms.heft.ThesisHEFTBattery;
 import at.ac.tuwien.ec.thesis.algorithms.heft.ThesisHEFTRuntime;
 import at.ac.tuwien.ec.thesis.algorithms.kdla.KDLABattery;
 import at.ac.tuwien.ec.thesis.algorithms.kdla.KDLARuntime;
 import at.ac.tuwien.ec.thesis.algorithms.mmolb.MMOLBBattery;
 import at.ac.tuwien.ec.thesis.algorithms.mmolb.MMOLBRuntime;
+import at.ac.tuwien.ec.thesis.algorithms.mobile.ThesisNonOffloadAlgorithm;
 import at.ac.tuwien.ec.thesis.algorithms.peft.ThesisPEFTBattery;
 import at.ac.tuwien.ec.thesis.algorithms.peft.ThesisPEFTRuntime;
 import java.io.File;
@@ -44,6 +47,7 @@ public class ThesisEvaluationMain {
     processArgs(arg);
     Logger.getLogger("org").setLevel(Level.OFF);
     Logger.getLogger("akka").setLevel(Level.OFF);
+    ThesisSettings.EnableProgressDebug = true;
 
     DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd-HH_mm_ss");
     Date date = new Date();
@@ -67,12 +71,13 @@ public class ThesisEvaluationMain {
 
       for (String algorithm : ThesisSettings.algorithms) {
         SimulationSetup.algorithms = new String[] {algorithm};
+
+        /*
         SimulationSetup.mobileNum = 100;
         SimulationSetup.appNumber = 30;
 
         execute(algorithm, writer);
 
-        /*
         for (int count : ThesisSettings.parallelInstances) {
           SimulationSetup.mobileNum = count;
           SimulationSetup.appNumber = 1;
@@ -84,8 +89,20 @@ public class ThesisEvaluationMain {
           SimulationSetup.appNumber = count;
           execute(algorithm, writer);
         }
-
          */
+
+        for (int i : new int[] {1, 10, 25, 50, 75, 100}) {
+          SimulationSetup.mobileNum = i;
+          SimulationSetup.appNumber = 10;
+          if (SimulationSetup.algorithms[0].equals("mobile")) {
+            execute(algorithm, writer);
+          } else {
+            for (double count : new double[] {0, 0.25, 0.50, 0.75, 1}) {
+              ThesisSettings.ScoreAlpha = count;
+              execute(algorithm, writer);
+            }
+          }
+        }
       }
     }
 
@@ -122,7 +139,7 @@ public class ThesisEvaluationMain {
         histogram.max(new FrequencyComparator());
 
     writer.printf(
-        "%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
+        "%s;%s;%s;%s;%s;%s;%s;%s;%s;%s\n",
         SimulationSetup.mobileApplication,
         algoName,
         SimulationSetup.mobileNum,
@@ -131,7 +148,8 @@ public class ThesisEvaluationMain {
         mostFrequent._2()._4(), // battery
         mostFrequent._2()._5(), // execution_time
         mostFrequent._2()._4() / SimulationSetup.batteryCapacity,
-        SimulationSetup.batteryCapacity
+        SimulationSetup.batteryCapacity,
+        ThesisSettings.ScoreAlpha
         );
     writer.flush();
 
@@ -197,6 +215,15 @@ public class ThesisEvaluationMain {
                     break;
                   case "mmolb-b":
                     singleSearch = new MMOLBBattery(inputValues);
+                    break;
+                  case "cpop-rs":
+                    singleSearch = new CPOPRuntimeScored(inputValues);
+                    break;
+                  case "cpop-bs":
+                    singleSearch = new CPOPBatteryScored(inputValues);
+                    break;
+                  case "mobile":
+                    singleSearch = new ThesisNonOffloadAlgorithm(inputValues);
                     break;
                   default:
                     singleSearch = new ThesisHEFTRuntime(inputValues);

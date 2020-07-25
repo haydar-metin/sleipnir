@@ -36,7 +36,6 @@ public class ThesisMain {
 
     ThesisSettings.EnableProgressDebug = false;
     ThesisSettings.ScoreAlpha = 0.8;
-    ThesisSettings.ScoreBeta = 1 - ThesisSettings.ScoreAlpha;
     boolean isDebug = false;
     String[] names =
         new String[] {
