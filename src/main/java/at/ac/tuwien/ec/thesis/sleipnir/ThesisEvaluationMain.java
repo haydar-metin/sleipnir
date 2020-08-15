@@ -71,12 +71,14 @@ public class ThesisEvaluationMain {
 
       for (String algorithm : ThesisSettings.algorithms) {
         SimulationSetup.algorithms = new String[] {algorithm};
+                /*
 
-        /*
+        // Extreme
         SimulationSetup.mobileNum = 100;
         SimulationSetup.appNumber = 30;
 
         execute(algorithm, writer);
+
 
         for (int count : ThesisSettings.parallelInstances) {
           SimulationSetup.mobileNum = count;
@@ -89,20 +91,26 @@ public class ThesisEvaluationMain {
           SimulationSetup.appNumber = count;
           execute(algorithm, writer);
         }
-         */
 
-        for (int i : new int[] {1, 10, 25, 50, 75, 100}) {
-          SimulationSetup.mobileNum = i;
-          SimulationSetup.appNumber = 10;
-          if (SimulationSetup.algorithms[0].equals("mobile")) {
-            execute(algorithm, writer);
-          } else {
-            for (double count : new double[] {0, 0.25, 0.50, 0.75, 1}) {
-              ThesisSettings.ScoreAlpha = count;
+*/
+        // scored
+        for (int i : new int[] {100}) {
+          for (int j : new int[] {30}) {
+            SimulationSetup.mobileNum = i;
+            SimulationSetup.appNumber = j;
+            if (SimulationSetup.algorithms[0].equals("mobile")) {
+              ThesisSettings.ScoreAlpha = 0;
               execute(algorithm, writer);
+            } else {
+              for (double count : new double[] {0, 0.25, 0.50, 0.75, 1}) {
+                ThesisSettings.ScoreAlpha = count;
+                execute(algorithm, writer);
+              }
             }
           }
         }
+
+         // */
       }
     }
 
@@ -146,7 +154,7 @@ public class ThesisEvaluationMain {
         SimulationSetup.appNumber,
         mostFrequent._2()._2(), // runtime
         mostFrequent._2()._4(), // battery
-        mostFrequent._2()._5(), // execution_time
+        mostFrequent._2()._5(), // execution_time in ms
         mostFrequent._2()._4() / SimulationSetup.batteryCapacity,
         SimulationSetup.batteryCapacity,
         ThesisSettings.ScoreAlpha
@@ -296,7 +304,7 @@ public class ThesisEvaluationMain {
                         val._2() / val._1(),
                         val._3() / val._1(),
                         val._4() / val._1(),
-                        (val._5() / SimulationSetup.iterations) / 1e6);
+                        val._5() / 1e6); // ms
 
                 return new Tuple2<
                     OffloadScheduling, Tuple5<Integer, Double, Double, Double, Double>>(

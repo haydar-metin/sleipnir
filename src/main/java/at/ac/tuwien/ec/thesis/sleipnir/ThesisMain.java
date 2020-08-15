@@ -30,12 +30,12 @@ import scala.Tuple2;
 public class ThesisMain {
   public static void main(String[] args) {
     System.out.println("Testing started");
-    SimulationSetup.mobileNum = 100;
-    SimulationSetup.appNumber = 10;
+    SimulationSetup.mobileNum = 30;
+    SimulationSetup.appNumber = 100;
     SimulationSetup.mobileApplication = "NAVI";
 
     ThesisSettings.EnableProgressDebug = false;
-    ThesisSettings.ScoreAlpha = 0.8;
+    ThesisSettings.ScoreAlpha = 1;
     boolean isDebug = false;
     String[] names =
         new String[] {
@@ -43,7 +43,7 @@ public class ThesisMain {
           "LLOBM-B", "CPOP-RS", "CPOP-BS"
         };
     // Integer[] ids = new Integer[] {0, 1, 2, 3, 4, 5, 8, 9};
-    Integer[] ids = new Integer[] {2, 3, 10, 11};
+    Integer[] ids = new Integer[] {10};
     int rounds = 1;
 
     for (Integer id : ids) {
@@ -136,8 +136,12 @@ public class ThesisMain {
               + "] Result: "
               + avgRunTime / rounds
               + ", "
+              + avgBatteryConsumption
+              + ", "
               + (avgBatteryConsumption / rounds) / SimulationSetup.batteryCapacity
               + " ["
+              + avgExecutionTime
+              + ","
               + avg_seconds
               + ", "
               + sum_seconds

@@ -25,7 +25,7 @@ public class CPOPBatteryScored extends BaseCPOP {
 
     if (criticalPath.get(currTask.getUserId()).contains(currTask)) {
       ComputationalNode node = bestNode.get(currTask.getUserId());
-      if (isMaxValid(scheduling, currTask, node)) {
+      if (isValid(scheduling, currTask, node)) {
         target = node;
       }
     } else {

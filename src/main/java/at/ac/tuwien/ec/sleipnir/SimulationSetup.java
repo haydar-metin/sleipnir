@@ -61,7 +61,7 @@ public class SimulationSetup {
 	public static String[] algorithms = {"heft-r"};
 	public static boolean batch;
 	public static double batteryCapacity = mobileEnergyBudget * mobileNum;
-	public static int iterations = 10;
+	public static int iterations = 1;
 	public static double EchoGamma;
 	public static double EchoAlpha;
 	public static double EchoBeta;

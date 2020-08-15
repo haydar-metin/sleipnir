@@ -25,7 +25,7 @@ public class CPOPRuntimeScored extends BaseCPOP {
 
     if (criticalPath.get(currTask.getUserId()).contains(currTask)) {
       ComputationalNode node = bestNode.get(currTask.getUserId());
-      if (isMaxValid(scheduling, currTask, node)) {
+      if (isValid(scheduling, currTask, node)) {
         target = node;
       }
     } else {
@@ -135,10 +135,10 @@ public class CPOPRuntimeScored extends BaseCPOP {
     // max = 4
     // curr = 2
 
-    double runtimeDiff = Math.pow(currRuntime - minRuntime,2.0);
-    double energyDiff = Math.pow(currEnergy - minEnergy,2.0);
+    double runtimeDiff = Math.pow(currRuntime - minRuntime,1.0);
+    double energyDiff = Math.pow(currEnergy - minEnergy,1.0);
 
-    return ThesisSettings.ScoreAlpha * adjust(runtimeDiff,1.0) + (1 - ThesisSettings.ScoreAlpha) * adjust(energyDiff,1.0);
+    return ThesisSettings.ScoreAlpha * adjust(runtimeDiff,1.0) + (1.0 - ThesisSettings.ScoreAlpha) * adjust(energyDiff,1.0);
   }
 
 
